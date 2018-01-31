@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Train Scheduler</title>
+	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+</head>
+<body>
+	
+	<h1>Train Scheduler</h1>
+
+	<label for="train-input">Train Name:</label>
+	<input class="form-control" id="train-input" type="text">
+	<label for="des-input">Destination:</label>
+	<input class="form-control" id="des-input" type="text">
+	<label for="first-input">First Train Time (HH:mm - military time):</label>
+	<input class="form-control" id="first-input" type="text">
+	<label for="frequ-input">Frequency (min):</label>
+	<input class="form-control" id="frequ-input" type="text">
+  
+	<button id="click-button" type="submit">Submit</button>
+
+	<hr>
+
+	<div id="displayed-data"></div>
+	<div id="display-minutes"></div>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="game.js"></script>
+</body>
+</html>
