@@ -10,57 +10,47 @@ var config = {
 
 var database = firebase.database();
 
-var train = "";
-var destination = "";
-var firstTrain = "";
-var frequency = "";
-var minutesAway = "";
-
 $("#click-button").on("click", function() {
-      // Prevent the page from refreshing
+      
   event.preventDefault();
 
-  train = $("#train-input").val().trim();
-  destination = $("#des-input").val().trim();
-  firstTrain = $("#first-input").val().trim();
-  frequency = $("#frequ-input").val().trim();
-  // minutesAway = moment([firstTrain]).fromNow();
+  var train = $("#train-input").val().trim();
+  var destination = $("#des-input").val().trim();
+  var firstTrain = moment($("#first-input").val().trim(), "HH:mm").format("X");
+  var frequency = $("#frequ-input").val().trim();
 
-  // Change what is saved in firebase
   database.ref().push({
     train: train,
     destination: destination,
     firstTrain: firstTrain,
     frequency: frequency
   });
+
+  $("#train-input").val("");
+  $("#des-input").val("");
+  $("#first-input").val("");
+  $("#frequ-input").val("");
+
+});  
+
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
+  var train = childSnapshot.val().train;
+  var destination = childSnapshot.val().destination;
+  var firstTrain = parseInt(childSnapshot.val().firstTrain);
+  var frequency = childSnapshot.val().frequency;
+
+  var frequencySeconds = frequency * 60;
+  var now = parseInt(moment().format("X"));
+
+  while (now > firstTrain) {
+    firstTrain += frequencySeconds
+  }
+  var nextTrain = moment(firstTrain, "X").format("HH:mm");
+  var minutesAway = Math.ceil((firstTrain - now) / 60);
+
+  $("#train-table > tbody").append("<tr><td>" + train + "</td><td>" + destination + "</td><td>" +
+  frequency + "</td><td>" + nextTrain + "</td><td>" + minutesAway + "</td></tr>");
+
 });
-
-database.ref().on("value", function(snapshot) {
-      // Print the initial data to the console.
-      var data = snapshot.val();
-      console.log(data);
-      $("#displayed-data").empty();
-      // https://stackoverflow.com/questions/40086525/having-trouble-iterating-through-javascript-objects
-      snapshot.forEach(function(child){
-      	if (typeof child.val() == "object"){
-      		$("#displayed-data").append(child.val().train + " | " + child.val().destination + " | " + child.val().firstTrain + " | " + child.val().frequency+"<br>\n");
-      	}
-      });
-
-
-/*
-      // Log the value of the various properties
-      console.log(snapshot.val().train);
-      console.log(snapshot.val().destination);
-      console.log(snapshot.val().firstTrain);
-      console.log(snapshot.val().frequency);
-      
-      $("#displayed-data").append(snapshot.val().train + " | " + snapshot.val().destination + " | " + snapshot.val().firstTrain + " | " + snapshot.val().frequency);
-*/
-  },  function(errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
-
-
-
 
