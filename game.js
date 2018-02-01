@@ -16,6 +16,7 @@ $("#click-button").on("click", function() {
 
   var train = $("#train-input").val().trim();
   var destination = $("#des-input").val().trim();
+  //convert time from HH:mm to Unix
   var firstTrain = moment($("#first-input").val().trim(), "HH:mm").format("X");
   var frequency = $("#frequ-input").val().trim();
 
@@ -25,7 +26,7 @@ $("#click-button").on("click", function() {
     firstTrain: firstTrain,
     frequency: frequency
   });
-
+  //clear the input dispaly
   $("#train-input").val("");
   $("#des-input").val("");
   $("#first-input").val("");

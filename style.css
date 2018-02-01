@@ -1,0 +1,12 @@
+body {
+	font-family: 'Playfair Display', serif;
+	background-image: url("train.jpg");
+}
+
+.jumbotron {
+	margin-top: 15px;
+}
+
+.container {
+	opacity: 0.8;
+}
